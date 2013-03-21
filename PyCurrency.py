@@ -15,6 +15,8 @@ class PyCurrency:
 
 	# Performs conversion
 	def convert(self, amount, fromCurrency, toCurrency, rounded = False):
+
+		amount = float(amount)
 		
 		if self.validateCurrency([fromCurrency, toCurrency]) is False:
 			raise NameError('Invalid currency code!')
@@ -60,7 +62,7 @@ class PyCurrency:
 			# Cache this rate
 			self.newCache(fromCurrency.upper() + toCurrency.upper(), rate)
 
-		return rate
+		return float(rate)
 
 	# Fetches data from API
 	def fetch(self, amount, fromCurrency, toCurrency):
@@ -80,7 +82,7 @@ class PyCurrency:
 		if self.cachable is not True:
 			return False
 
-		path = self.cacheFolder + '/' + fileName + '.convertcache'
+		path = os.path.join(self.cacheFolder, fileName + '.convertcache')
 
 		# Check if file exists
 		try:
@@ -114,7 +116,9 @@ class PyCurrency:
 	def newCache(self, fileName, rate):
 		if self.cachable:
 			data = str(time.time()) + '\n' + str(rate)
-			f = open(self.cacheFolder + '/' + fileName.upper() + '.convertcache', 'w')
+			path = os.path.join(self.cacheFolder, fileName.upper() + '.convertcache')
+
+			f = open(path, 'w')
 			f.write(data)
 			f.close()
 
