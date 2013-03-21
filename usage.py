@@ -1,4 +1,4 @@
-from PyCurrency import *
+from PyCurrency import PyCurrency
 
 # Instantiate the class
 convert = PyCurrency()
